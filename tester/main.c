@@ -58,7 +58,7 @@ int main ( void )
 	printf ( "HDLC channel handle=0x%p\n", p_hdlc );
 	printf ( "Testing " );
 
-	while ( 1 )
+	while ( num_packets < 100 )
 	{
 		hdlc_packet_t *dec_packet;
 
@@ -79,7 +79,11 @@ int main ( void )
 		{
 			dec_packet = HDLC_getDecodedPacket ( p_hdlc );
 
-			dec_osize = dec_packet->size - 2;  //exclude 2-byte CRC16 octets!
+			dec_osize = dec_packet->size;
+            #ifdef __CRC16__
+                dec_osize = dec_packet->size - 2;  //exclude 2-byte CRC16 octets!
+            #endif
+
 			dec_out = dec_packet->data;
 
 			/*decoded packet size is equal to the original size?*/
@@ -104,9 +108,9 @@ int main ( void )
 		}
 
 		if ( ( ++num_packets & 0x0003fffL ) == 0 )
-			putch ('.');
+			putchar ('.');
 	}
-
+    printf("\nTest OK \n");
 	return 0;
 
 err:

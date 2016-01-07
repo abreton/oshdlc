@@ -121,6 +121,7 @@ typedef struct hdlctrans_t
 	#define hdlctrans_start( ht ) \
 	{ \
 		hdlctrans_flag ( ht ); \
+		hdlctrans_transmod ( ht, FALSE ); \
 	}
 #endif
 
